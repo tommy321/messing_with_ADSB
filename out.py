@@ -1,0 +1,344 @@
+from lxml import etree
+from pykml.factory import KML_ElementMaker as KML
+from pykml.factory import ATOM_ElementMaker as ATOM
+from pykml.factory import GX_ElementMaker as GX
+
+doc = None.kml(
+  None.Document(
+    None.open('1'),
+    None.name('shortened.igc'),
+    None.description("<table border='0' cellpadding='1' cellspacing='0'><tr><td>Flight Date:</td><td>Jul 3, 2013</td></tr><tr><td>Start:</td><td>5:33:06 PM</td></tr><tr><td>End:</td><td>5:33:09 PM</td></tr><tr><td>Duration:</td><td>+00:00:03</td></tr><tr><td>Fix Count:</td><td>4</td></tr><tr><td>Great Circle:</td><td>0.1km ~ 0.0mi</td></tr><tr><td>Flight Path:</td><td>0.1km ~ 0.0mi</td></tr><tr><td>Max Altitude (A1):</td><td>82m ~ 269ft MSL</td></tr><tr><td>Max Altitude (A2):</td><td>0m ~ 0ft MSL</td></tr><tr><td>Total Gain (A3):</td><td>0m ~ 0ft</td></tr><tr><td>Max Climb:</td><td>1.0m/s ~ 197ft/min</td></tr><tr><td>Max Sink:</td><td>2.0m/s ~ 394ft/min</td></tr><tr><td>Max Ground Speed:</td><td>96.1km/h ~ 59.7mph</td></tr><tr><td>Pilot:</td><td>TOM HASTIE</td></tr><tr><td>Glider Type:</td><td>ASW24</td></tr><tr><td>Glider ID:</td><td>C-GKHU</td></tr><tr><td>GPS Datum:</td><td>WGS-84</td></tr><tr><td>GPS:</td><td>Internal GPS (Android)</td></tr><tr><td>Flight Recorder:</td><td>XCSOAR,XCSOAR Android 6.6.3 Jul  2 2013</td></tr><tr><td>COMPETITIONID</td><td>M7</td></tr></table>"),
+    None.Style(
+      None.LineStyle(
+        None.color('ffff0000'),
+        None.width('3'),
+      ),
+      id="basicPath",
+    ),
+    None.Style(
+      None.LineStyle(
+        None.color('00ffffff'),
+        None.width('1'),
+      ),
+      None.PolyStyle(
+        None.color('6fffffff'),
+      ),
+      id="extrusion",
+    ),
+    None.Style(
+      None.LineStyle(
+        None.color('ffffffff'),
+        None.width('2'),
+      ),
+      id="groundTrack",
+    ),
+    None.Style(
+      None.IconStyle(
+        None.color('bf00aaaa'),
+        None.scale('0.3'),
+        None.icon(
+               'http://maps.google.com/mapfiles/kml/pal3/icon61.png'
+        ),
+      ),
+      None.LabelStyle(
+        None.scale('0.3'),
+      ),
+      id="fixNormal",
+    ),
+    None.Style(
+      None.IconStyle(
+        None.color('ff00ffff'),
+        None.scale('0.5'),
+        None.icon(
+               'http://maps.google.com/mapfiles/kml/pal3/icon61.png'
+        ),
+      ),
+      None.LabelStyle(
+        None.scale('0.5'),
+      ),
+      id="fixHighlight",
+    ),
+    None.StyleMap(
+      None.Pair(
+        None.key('normal'),
+        None.styleUrl('#fixNormal'),
+      ),
+      None.Pair(
+        None.key('highlight'),
+        None.styleUrl('#fixHighlight'),
+      ),
+      id="fix",
+    ),
+    None.Style(
+      None.IconStyle(
+        None.color('bfaa0000'),
+        None.scale('0.3'),
+        None.icon(
+               'http://maps.google.com/mapfiles/kml/pal3/icon61.png'
+        ),
+      ),
+      None.LabelStyle(
+        None.scale('0.3'),
+      ),
+      id="fixNormalAdj",
+    ),
+    None.Style(
+      None.IconStyle(
+        None.color('ffff0000'),
+        None.scale('0.5'),
+        None.icon(
+               'http://maps.google.com/mapfiles/kml/pal3/icon61.png'
+        ),
+      ),
+      None.LabelStyle(
+        None.scale('0.5'),
+      ),
+      id="fixHighlightAdj",
+    ),
+    None.StyleMap(
+      None.Pair(
+        None.key('normal'),
+        None.styleUrl('#fixNormalAdj'),
+      ),
+      None.Pair(
+        None.key('highlight'),
+        None.styleUrl('#fixHighlightAdj'),
+      ),
+      id="fixAdj",
+    ),
+    None.Style(
+      None.IconStyle(
+        None.color('df0000bb'),
+        None.scale('0.5'),
+        None.icon(
+               'http://maps.google.com/mapfiles/kml/pal4/icon25.png'
+        ),
+      ),
+      None.LabelStyle(
+        None.scale('0.5'),
+      ),
+      id="fixHighestNormal",
+    ),
+    None.Style(
+      None.IconStyle(
+        None.color('ff0000ff'),
+        None.scale('0.7'),
+        None.icon(
+               'http://maps.google.com/mapfiles/kml/pal4/icon25.png'
+        ),
+      ),
+      None.LabelStyle(
+        None.scale('0.7'),
+      ),
+      id="fixHighestHighlight",
+    ),
+    None.StyleMap(
+      None.Pair(
+        None.key('normal'),
+        None.styleUrl('#fixHighestNormal'),
+      ),
+      None.Pair(
+        None.key('highlight'),
+        None.styleUrl('#fixHighestHighlight'),
+      ),
+      id="fixHighest",
+    ),
+    None.Folder(
+      None.name('Flight Views (Adjusted)'),
+      None.open('1'),
+      None.Style(
+        None.ListStyle(
+          None.listItemType('radioFolder'),
+        ),
+      ),
+      None.Folder(
+        None.name('Altitudes'),
+        None.visibility('1'),
+        None.Style(
+          None.ListStyle(
+            None.listItemType('checkHideChildren'),
+          ),
+        ),
+        None.Placemark(
+          None.name('+00:00:00 ~ 82m ~ 269ft'),
+          None.Style(
+            None.LineStyle(
+              None.color('ff0000ff'),
+              None.width('3'),
+            ),
+          ),
+          None.LineString(
+            None.extrude('0'),
+            None.altitudeMode('absolute'),
+            None.coordinates(
+'-75.11767,45.496468,82'
+'-75.117836,45.496666,82'
+            ),
+          ),
+        ),
+        None.Placemark(
+          None.name('+00:00:01 ~ 81m ~ 266ft'),
+          None.Style(
+            None.LineStyle(
+              None.color('ffffff00'),
+              None.width('3'),
+            ),
+          ),
+          None.LineString(
+            None.extrude('0'),
+            None.altitudeMode('absolute'),
+            None.coordinates(
+'-75.117836,45.496666,82'
+'-75.11798,45.496883,80'
+            ),
+          ),
+        ),
+        None.Placemark(
+          None.name('+00:00:02 ~ 80m ~ 262ft'),
+          None.Style(
+            None.LineStyle(
+              None.color('ff0000ff'),
+              None.width('3'),
+            ),
+          ),
+          None.LineString(
+            None.extrude('0'),
+            None.altitudeMode('absolute'),
+            None.coordinates(
+'-75.11798,45.496883,80'
+'-75.11808,45.4971,81'
+            ),
+          ),
+        ),
+      ),
+    ),
+    None.Placemark(
+      None.name('Extrusion'),
+      None.visibility('0'),
+      None.styleUrl('#extrusion'),
+      None.LineString(
+        None.extrude('1'),
+        None.altitudeMode('absolute'),
+        None.coordinates(
+'-75.11767,45.496468,82'
+'-75.117836,45.496666,82'
+'-75.11798,45.496883,80'
+'-75.11808,45.4971,81'
+        ),
+      ),
+    ),
+    None.Placemark(
+      None.name('Ground Track'),
+      None.visibility('0'),
+      None.styleUrl('#groundTrack'),
+      None.LineString(
+        None.extrude('0'),
+        None.altitudeMode('clampToGround'),
+        None.coordinates(
+'-75.11767,45.496468,82'
+'-75.117836,45.496666,82'
+'-75.11798,45.496883,80'
+'-75.11808,45.4971,81'
+        ),
+      ),
+    ),
+    None.Folder(
+      None.name('Fixes'),
+      None.visibility('0'),
+      None.Placemark(
+        None.name('+00:00:00 ~ 82m ~ 269ft'),
+        None.description("<table border='0' cellpadding='1' cellspacing='0'><tr><td>Fix #:</td><td>1</td></tr><tr><td>Date:</td><td>Jul 3, 2013</td></tr><tr><td>Time:</td><td>5:33:06 PM</td></tr><tr><td>Flight Time:</td><td>+00:00:00</td></tr><tr><td>Altitude (Adjusted):</td><td>82m ~ 269ft MSL</td></tr><tr><td>Altitude (Pressure):</td><td>644m ~ 2,112ft MSL</td></tr><tr><td>Altitude (GNSS):</td><td>644m ~ 2,112ft MSL</td></tr><tr><td>Vario:</td><td>0.0m/s ~ 0ft/min</td></tr><tr><td>Ground Speed:</td><td>0.0km/h ~ 0.0mph</td></tr><tr><td>Track:</td><td>330&deg; (NNW)</td></tr><tr><td>Longitude:</td><td>-75.11767&deg; (75&deg; 7.06009' W)</td></tr><tr><td>Latitude:</td><td>45.49647&deg; (45&deg; 29.78806' N)</td></tr></table>"),
+        None.styleUrl('#fixHighest'),
+        None.Point(
+          None.altitudeMode('absolute'),
+          None.coordinates(
+                  '-75.11767,45.496468,82'
+          ),
+        ),
+        None.TimeStamp(
+          None.when('2013-07-03T17:33:06Z'),
+        ),
+        None.Camera(
+          None.longitude('-75.11767'),
+          None.latitude('45.496468'),
+          None.altitude('82'),
+          None.heading('330'),
+          None.tilt('75'),
+          None.roll('30'),
+          None.altitudeMode('absolute'),
+        ),
+      ),
+      None.Placemark(
+        None.name('+00:00:01 ~ 82m ~ 269ft'),
+        None.description("<table border='0' cellpadding='1' cellspacing='0'><tr><td>Fix #:</td><td>2</td></tr><tr><td>Date:</td><td>Jul 3, 2013</td></tr><tr><td>Time:</td><td>5:33:07 PM</td></tr><tr><td>Flight Time:</td><td>+00:00:01</td></tr><tr><td>Altitude (Adjusted):</td><td>82m ~ 269ft MSL</td></tr><tr><td>Altitude (Pressure):</td><td>643m ~ 2,109ft MSL</td></tr><tr><td>Altitude (GNSS):</td><td>643m ~ 2,109ft MSL</td></tr><tr><td>Vario:</td><td>0.0m/s ~ 0ft/min</td></tr><tr><td>Ground Speed:</td><td>92.3km/h ~ 57.4mph</td></tr><tr><td>Track:</td><td>336&deg; (NNW)</td></tr><tr><td>Longitude:</td><td>-75.11784&deg; (75&deg; 7.07016' W)</td></tr><tr><td>Latitude:</td><td>45.49667&deg; (45&deg; 29.79996' N)</td></tr></table>"),
+        None.styleUrl('#fixHighest'),
+        None.Point(
+          None.altitudeMode('absolute'),
+          None.coordinates(
+                  '-75.117836,45.496666,82'
+          ),
+        ),
+        None.TimeStamp(
+          None.when('2013-07-03T17:33:07Z'),
+        ),
+        None.Camera(
+          None.longitude('-75.117836'),
+          None.latitude('45.496666'),
+          None.altitude('82'),
+          None.heading('336'),
+          None.tilt('75'),
+          None.roll('30'),
+          None.altitudeMode('absolute'),
+        ),
+      ),
+      None.Placemark(
+        None.name('+00:00:02 ~ 80m ~ 262ft'),
+        None.description("<table border='0' cellpadding='1' cellspacing='0'><tr><td>Fix #:</td><td>3</td></tr><tr><td>Date:</td><td>Jul 3, 2013</td></tr><tr><td>Time:</td><td>5:33:08 PM</td></tr><tr><td>Flight Time:</td><td>+00:00:02</td></tr><tr><td>Altitude (Adjusted):</td><td>80m ~ 262ft MSL</td></tr><tr><td>Altitude (Pressure):</td><td>641m ~ 2,103ft MSL</td></tr><tr><td>Altitude (GNSS):</td><td>641m ~ 2,103ft MSL</td></tr><tr><td>Vario:</td><td>-2.0m/s ~ -393ft/min</td></tr><tr><td>Ground Speed:</td><td>96.1km/h ~ 59.7mph</td></tr><tr><td>Track:</td><td>343&deg; (NNW)</td></tr><tr><td>Longitude:</td><td>-75.11798&deg; (75&deg; 7.07886' W)</td></tr><tr><td>Latitude:</td><td>45.49688&deg; (45&deg; 29.81300' N)</td></tr></table>"),
+        None.styleUrl('#fix'),
+        None.Point(
+          None.altitudeMode('absolute'),
+          None.coordinates(
+                  '-75.11798,45.496883,80'
+          ),
+        ),
+        None.TimeStamp(
+          None.when('2013-07-03T17:33:08Z'),
+        ),
+        None.Camera(
+          None.longitude('-75.11798'),
+          None.latitude('45.496883'),
+          None.altitude('80'),
+          None.heading('343'),
+          None.tilt('75'),
+          None.roll('30'),
+          None.altitudeMode('absolute'),
+        ),
+      ),
+      None.Placemark(
+        None.name('+00:00:03 ~ 81m ~ 266ft'),
+        None.description("<table border='0' cellpadding='1' cellspacing='0'><tr><td>Fix #:</td><td>4</td></tr><tr><td>Date:</td><td>Jul 3, 2013</td></tr><tr><td>Time:</td><td>5:33:09 PM</td></tr><tr><td>Flight Time:</td><td>+00:00:03</td></tr><tr><td>Altitude (Adjusted):</td><td>81m ~ 266ft MSL</td></tr><tr><td>Altitude (Pressure):</td><td>641m ~ 2,103ft MSL</td></tr><tr><td>Altitude (GNSS):</td><td>641m ~ 2,103ft MSL</td></tr><tr><td>Vario:</td><td>1.0m/s ~ 197ft/min</td></tr><tr><td>Ground Speed:</td><td>91.4km/h ~ 56.8mph</td></tr><tr><td>Track:</td><td>343&deg; (NNW)</td></tr><tr><td>Longitude:</td><td>-75.11808&deg; (75&deg; 7.08481' W)</td></tr><tr><td>Latitude:</td><td>45.49710&deg; (45&deg; 29.82605' N)</td></tr></table>"),
+        None.styleUrl('#fix'),
+        None.Point(
+          None.altitudeMode('absolute'),
+          None.coordinates(
+                  '-75.11808,45.4971,81'
+          ),
+        ),
+        None.TimeStamp(
+          None.when('2013-07-03T17:33:09Z'),
+        ),
+        None.Camera(
+          None.longitude('-75.11808'),
+          None.latitude('45.4971'),
+          None.altitude('81'),
+          None.heading('343'),
+          None.tilt('75'),
+          None.roll('30'),
+          None.altitudeMode('absolute'),
+        ),
+      ),
+    ),
+    id="shortened.igc",
+  ),
+)
+print etree.tostring(etree.ElementTree(doc),pretty_print=True)
